@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: luob/create-my-awesome@v1
+      - uses: luob/create-my-awesome@v1.0.0-alpha
       # Commit the change
       # See https://github.com/EndBug/add-and-commit
       - uses: EndBug/add-and-commit@v5
@@ -43,14 +43,13 @@ Pushing changes with `${{ github.token }}` will not create a new workflow run, t
 
 ## Advance Usage
 
-You can customize the description section:
+You can customize the introduction:
 
 ```yaml
   # ...
-  - uses: luob/create-my-awesome@v1.0.0
+  - uses: luob/create-my-awesome@v1.0.0-alpha
     with:
-    description: >
-      A collection of awesome things.
+      introduction: 'A liSt oF awesOme thiNgs'
   # ...
 ```
 
