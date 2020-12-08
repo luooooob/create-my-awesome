@@ -6,26 +6,31 @@ branding:
   icon: book
   color: red
 inputs:
-  description:
+  username:
     description: >
-      The owner and repository name.
-    default: 'A collection of awesome things.'
-    
-  token:
-    description: >
-      Personal access token (PAT) used to fetch the repository.
-    default: ${{ github.token }}
+      You can specify to use any user's data
+    default: ${{ github.repository_owner }}
 
-  name_with_owner: 
+  repository: 
     description: >
       The owner and repository name.
     default: ${{ github.repository }}
 
+  introduction:
+    description: >
+      The introduction for your awesome project
+    default: 'A collection of awesome things.'
+  
+  target: 
+    description: >
+      The target filename
+    default: ./README.md
+
   workflow:
     default:  ${{ github.workflow }}
 
-  output_path:
-    default: ${{ github.workspace }}
+  token:
+    default: ${{ github.token }}
     
 runs:
   using: 'node12'
