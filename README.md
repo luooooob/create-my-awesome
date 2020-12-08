@@ -1,103 +1,66 @@
-<p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
-</p>
+# Create My Awesome
 
-# Create a JavaScript Action using TypeScript
+![GitHub release](https://img.shields.io/github/v/release/luob/create-my-awesome)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/luob/create-my-awesome/build-test)
+![GitHub top language](https://img.shields.io/github/languages/top/luob/create-my-awesome)
 
-Use this template to bootstrap the creation of a TypeScript action.:rocket:
+Github Actions for automatically generating the personal awesome list from all of the repositories you starred.
 
-This template includes compilation support, tests, a validation workflow, publishing, and versioning guidance.  
+## Usage
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
-
-## Create an action from this template
-
-Click the `Use this Template` and provide the new repo details for your action
-
-## Code in Main
-
-Install the dependencies  
-```bash
-$ npm install
-```
-
-Build the typescript and package it for distribution
-```bash
-$ npm run build && npm run package
-```
-
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
-
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
-
-...
-```
-
-## Change action.yml
-
-The action.yml contains defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-import * as core from '@actions/core';
-...
-
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Publish to a distribution branch
-
-Actions are run from GitHub repos so we will checkin the packed dist folder. 
-
-Then run [ncc](https://github.com/zeit/ncc) and push the results:
-```bash
-$ npm run package
-$ git add dist
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
-```
-
-Note: We recommend using the `--license` option for ncc, which will create a license file for all of the production node modules used in your project.
-
-Your action is now published! :rocket: 
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Validate
-
-You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml))
+1. [Create a new repository on Github](https://github.com/new)
+2. From this repository, [create a new GitHub Actions workflow](https://docs.github.com/en/free-pro-team@latest/actions/quickstart) and copy the following YAML contents info the `.yml` file
 
 ```yaml
-uses: ./
-with:
-  milliseconds: 1000
+
+name: 'build'
+on:
+  push:
+    branches:
+      - main
+  schedule:
+      # This expression means every day at UTC 00:00
+      # See https://crontab.guru/examples.html for more examples
+      - cron:  '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: luob/create-my-awesome@v1
+      # Commit the change
+      # See https://github.com/EndBug/add-and-commit
+      - uses: EndBug/add-and-commit@v5
+        with:
+          message: 'Update README.md'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 ```
 
-See the [actions tab](https://github.com/actions/typescript-action/actions) for runs of this action! :rocket:
+Pushing changes with `${{ github.token }}` will not create a new workflow run, this prevents you from accidentally creating recursive workflow runs. So don't warry about  trigger it on changes.
 
-## Usage:
 
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
+## Advance Usage
+
+You can customize the description section:
+
+```yaml
+  # ...
+  - uses: luob/create-my-awesome@v1.0.0
+    with:
+    description: >
+      A collection of awesome things.
+  # ...
+```
+
+## Contributing
+
+```shell
+  npm i
+  npm run all 
+```
+
+## License
+
+[MIT](LICENSE) 

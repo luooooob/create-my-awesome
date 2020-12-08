@@ -1,11 +1,32 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: Create My Awesome
+description: >
+  automatically generating the personal awesome list from all of the repositories you starred.
+author: luob
+branding:
+  icon: book
+  color: red
 inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  description:
+    description: >
+      The owner and repository name.
+    default: 'A collection of awesome things.'
+    
+  token:
+    description: >
+      Personal access token (PAT) used to fetch the repository.
+    default: ${{ github.token }}
+
+  name_with_owner: 
+    description: >
+      The owner and repository name.
+    default: ${{ github.repository }}
+
+  workflow:
+    default:  ${{ github.workflow }}
+
+  output_path:
+    default: ${{ github.workspace }}
+    
 runs:
   using: 'node12'
   main: 'dist/index.js'

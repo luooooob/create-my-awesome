@@ -21,4 +21,5 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          milliseconds: 1000
+          introduction: 'A liSt oF awesOme thiNgs'
+          target: '.target/README.md'
