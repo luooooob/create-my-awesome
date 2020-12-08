@@ -1,4 +1,4 @@
-import { getInput, info } from '@actions/core'
+import { error, getInput, info } from '@actions/core'
 import { getOctokit } from '@actions/github'
 import { promises as fs } from 'fs'
 import { dirname } from 'path'
@@ -34,7 +34,7 @@ const main = async () => {
     await mkdirp(dirname(target))
     await fs.writeFile(target, text)
   } catch (err) {
-    throw (err)
+    error(err)
   }
 }
 
