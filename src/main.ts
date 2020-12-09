@@ -29,6 +29,7 @@ const main = async () => {
     const md = renderToMd(repository, description, workflow, collection)
     const mdFilename = join(targetDir, 'README.md')
     info(`write file: "${mdFilename}"`)
+    info(md)
     await fs.writeFile(mdFilename, md)
 
   } catch (err) {

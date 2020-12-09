@@ -109,6 +109,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         const md = renderToMd_1.renderToMd(repository, description, workflow, collection);
         const mdFilename = path_1.join(targetDir, 'README.md');
         console_1.info(`write file: "${mdFilename}"`);
+        console_1.info(md);
         yield fs_1.promises.writeFile(mdFilename, md);
     }
     catch (err) {

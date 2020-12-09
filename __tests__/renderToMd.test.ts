@@ -4,7 +4,7 @@ import { join } from 'path'
 import { renderToMd } from '../src/renderToMd'
 import { promises as fs } from 'fs'
 
-test('test render', async () => {
+test('test renderToMd', async () => {
   const md = renderToMd(
     'zhangSan/awesome-Zhang-san',
     'awesome zhang-san project',
@@ -58,7 +58,7 @@ test('test render', async () => {
   )
 
   const targetDir = getInput(`targetDir`)
-  mkdirp(targetDir)
+  await mkdirp(targetDir)
   await fs.writeFile(join(targetDir, 'README.test.md'), md)
 
   expect(md).toMatch(/^# Awesome Zhang San/m)
