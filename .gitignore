@@ -100,3 +100,6 @@ lib/**/*
 
 # test target file
 .create-my-awesome
+
+# vscode 
+.vscode

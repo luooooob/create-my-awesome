@@ -38,7 +38,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 ```
 
-Pushing changes with `${{ github.token }}` will not create a new workflow run, this prevents you from accidentally creating recursive workflow runs. So don't warry about  trigger it on changes.
+- Pushing changes with `${{ github.token }}` will not create a new workflow run, this prevents you from accidentally creating recursive workflow runs. So don't warry about  trigger it on changes.
 
 
 ## Advance Usage
@@ -49,7 +49,8 @@ You can customize the description:
   # ...
   - uses: luob/create-my-awesome@v1.0.0-alpha.2
     with:
-      description: 'A liSt oF awesOme thiNgs'
+      description: 'A liSt oF awesOme thiNgs.',
+      targetDir: ./target/
   # ...
 ```
 
@@ -57,21 +58,14 @@ You can customize the description:
 
 ```sh
   npm i
-  npm run all 
+  npm run all
 ```
 
-To run it locally, you can customize the variables in `.env.example` and save as `.env`.Then:
+To run it locally, you can customize the variables in `.env.example` and save as `.env`. Then:
 
 ```sh
   npm run local
 ```
-
-## Todo
-
-use Development instead input targetpath
-render.test.ts rename
-test fetch
-add Screenshot to README.md
 
 ## License
 
