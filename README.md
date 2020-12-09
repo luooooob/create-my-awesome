@@ -68,6 +68,9 @@ To run it locally, you can customize the variables in `.env.example` and save as
 
 ## Todo
 
+use Development instead input targetpath
+render.test.ts rename
+test fetch
 add Screenshot to README.md
 
 ## License

@@ -1,3 +1,4 @@
+import { capitalCase } from "capital-case"
 import type { Repo } from "./types"
 
 type Category = { name: string, anchor: string, times: number, id: string, items: Repo[] }
@@ -8,6 +9,7 @@ export const renderToMd = (
   workflow: string,
   repos: Repo[]
 ) => {
+  const title = capitalCase(repository.split(`/`)[1])
   const badge = {
     text: `build`,
     svg: `https://github.com/${repository}/workflows/${workflow}/badge.svg`,
@@ -51,7 +53,7 @@ export const renderToMd = (
       return acc
     }, Array<Category>())
 
-  const rawHeading = `# ${repository}  [![${badge.text}](${badge.svg})](${badge.href})\n\n`
+  const rawHeading = `# ${title}  [![${badge.text}](${badge.svg})](${badge.href})\n\n`
 
   const rawIntroduction = `${introduction}\n\n`
 

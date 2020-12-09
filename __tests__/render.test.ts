@@ -1,10 +1,12 @@
+import { getInput } from '@actions/core'
 import { promises as fs } from 'fs'
 import { resolve } from 'path'
 import { renderToMd } from '../src/renderToMd'
 
 test('test render', async () => {
+  const target = getInput(`target`)
   const output = renderToMd(
-    'awesome-zhang-san',
+    'zhangSan/awesome-Zhang-san',
     'awesome zhang-san project',
     'build',
     [{
@@ -33,6 +35,11 @@ test('test render', async () => {
       description: "✍  An excellent open source blog publishing application. | 一个优秀的开源博客发布应用。",
       language: "Java"
     }, {
+      url: "https://github.com/halo-dev/halo",
+      name: "halo-dev/halo",
+      description: "✍  An excellent open source blog publishing application. | 一个优秀的开源博客发布应用。",
+      language: "Java++"
+    }, {
       url: "https://github.com/Qv2ray/Qv2ray",
       name: "Qv2ray/Qv2ray",
       description: ":star: Linux / Windows / macOS 跨平台 V2Ray 客户端 | 支持 VMess / VLESS / SSR / Trojan / Trojan-Go / NaiveProxy / HTTP / HTTPS / SOCKS5 | 使用 C++ / Qt 开发 | 可拓展插件式设计 :star:",
@@ -50,12 +57,17 @@ test('test render', async () => {
     }]
   )
 
+  await fs.writeFile(target, output)
+
+  expect(output).toMatch(/^# Awesome Zhang San/m)
   expect(output).toMatch(/\S\n\nawesome zhang-san project\n\n\S/m)
   expect(output).toMatch(/\S\n\n---\n\n\S/m)
   expect(output).toMatch(/\S\n\n## Misc\n\n/m)
   expect(output).toMatch(/^- \[C\]\(#c\)$/m)
   expect(output).toMatch(/^- \[C#\]\(#c-1\)$/m)
   expect(output).toMatch(/^- \[C\+\+\]\(#c-2\)$/m)
+  expect(output).toMatch(/^- \[Java\]\(#java\)$/m)
+  expect(output).toMatch(/^- \[Java\+\+\]\(#java-1\)$/m)
   expect(output).toMatch(/^- \[Common Lisp\]\(#common-lisp\)$/m)
   expect(output).toMatch(/^- \[Misc\]\(#misc\)$/m)
 })
