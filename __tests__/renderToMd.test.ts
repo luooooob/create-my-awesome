@@ -1,8 +1,8 @@
 import { getInput } from '@actions/core'
+import { promises as fs } from 'fs'
 import mkdirp from 'mkdirp'
 import { join } from 'path'
 import { renderToMd } from '../src/renderToMd'
-import { promises as fs } from 'fs'
 
 test('test renderToMd', async () => {
   const md = renderToMd(

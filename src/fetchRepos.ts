@@ -1,26 +1,6 @@
 import { info } from '@actions/core'
 import type { GithubClient, Repo } from './types'
 
-export interface GqlResponseUser {
-  user: {
-    starredRepositories: {
-      nodes: {
-        url: string
-        nameWithOwner: string
-        description: string
-        primaryLanguage: {
-          name: string
-        } | null
-      }[],
-      pageInfo: {
-        hasNextPage: boolean,
-        endCursor: string
-      }
-      totalCount: number
-    }
-  }
-}
-
 export const fetchRepos = async (
   github: GithubClient,
   collection: Repo[],
@@ -52,7 +32,7 @@ export const fetchRepos = async (
     "login": username,
     "after": after
   }
-  const data = await github.graphql<GqlResponseUser>(query, variables)
+  const data = await github.graphql(query, variables)
   const starred = data.user.starredRepositories
   starred.nodes.map(node => {
     const repo = {

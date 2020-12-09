@@ -19,7 +19,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.fetchRepos = void 0;
 const core_1 = __webpack_require__(2186);
-exports.fetchRepos = (github, collection, username, after = ``) => __awaiter(void 0, void 0, void 0, function* () {
+const fetchRepos = (github, collection, username, after = ``) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const query = `
     query($login: String!, $after: String!) {
@@ -62,6 +62,7 @@ exports.fetchRepos = (github, collection, username, after = ``) => __awaiter(voi
         yield exports.fetchRepos(github, collection, username, starred.pageInfo.endCursor);
     }
 });
+exports.fetchRepos = fetchRepos;
 
 
 /***/ }),
@@ -129,7 +130,7 @@ main();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.renderToMd = void 0;
 const capital_case_1 = __webpack_require__(8824);
-exports.renderToMd = (repository, description, workflow, repos) => {
+const renderToMd = (repository, description, workflow, repos) => {
     const title = capital_case_1.capitalCase(repository.split(`/`)[1]);
     const badge = {
         text: `build`,
@@ -185,6 +186,7 @@ exports.renderToMd = (repository, description, workflow, repos) => {
     }).join(``);
     return rawHeading + rawIntroduction + rawCategories + rawLine + rawContent;
 };
+exports.renderToMd = renderToMd;
 
 
 /***/ }),
