@@ -17,21 +17,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getRepo = exports.getUser = exports.fetchRepos = void 0;
+exports.fetchRepos = void 0;
 const core_1 = __webpack_require__(2186);
 exports.fetchRepos = (github, collection, username, after = ``) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield exports.getUser(github, username, after);
-    const repos = exports.getRepo(data);
-    const pageInfo = data.user.starredRepositories.pageInfo;
-    repos.map(repo => {
-        core_1.info(`get repo info: ${repo.name}`);
-        collection.push(repo);
-    });
-    if (pageInfo === null || pageInfo === void 0 ? void 0 : pageInfo.hasNextPage) {
-        yield exports.fetchRepos(github, collection, username, pageInfo.endCursor);
-    }
-});
-exports.getUser = (github, username, after) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const query = `
     query($login: String!, $after: String!) {
       user(login: $login) {
@@ -48,6 +37,7 @@ exports.getUser = (github, username, after) => __awaiter(void 0, void 0, void 0,
             hasNextPage
             endCursor
           }
+          totalCount
         }
       }
     }
@@ -56,16 +46,22 @@ exports.getUser = (github, username, after) => __awaiter(void 0, void 0, void 0,
         "login": username,
         "after": after
     };
-    return yield github.graphql(query, variables);
+    const data = yield github.graphql(query, variables);
+    const starred = data.user.starredRepositories;
+    starred.nodes.map(node => {
+        const repo = {
+            url: node.url,
+            name: node.nameWithOwner,
+            description: node.description || ``,
+            language: node.primaryLanguage ? node.primaryLanguage.name : `Misc`
+        };
+        collection.push(repo);
+    });
+    core_1.info(`fetch repos count: ${collection.length}/${starred.totalCount}`);
+    if ((_a = starred.pageInfo) === null || _a === void 0 ? void 0 : _a.hasNextPage) {
+        yield exports.fetchRepos(github, collection, username, starred.pageInfo.endCursor);
+    }
 });
-exports.getRepo = (data) => {
-    return data.user.starredRepositories.nodes.map(node => ({
-        url: node.url,
-        name: node.nameWithOwner,
-        description: node.description || ``,
-        language: node.primaryLanguage ? node.primaryLanguage.name : `Misc`
-    }));
-};
 
 
 /***/ }),
@@ -90,32 +86,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __webpack_require__(2186);
 const github_1 = __webpack_require__(5438);
+const console_1 = __webpack_require__(7082);
+const dotenv_1 = __importDefault(__webpack_require__(2437));
 const fs_1 = __webpack_require__(5747);
+const mkdirp_1 = __importDefault(__webpack_require__(6186));
 const path_1 = __webpack_require__(5622);
 const fetchRepos_1 = __webpack_require__(4476);
 const renderToMd_1 = __webpack_require__(6459);
-const dotenv_1 = __importDefault(__webpack_require__(2437));
-const mkdirp_1 = __importDefault(__webpack_require__(6186));
 dotenv_1.default.config();
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const username = core_1.getInput(`username`);
         const repository = core_1.getInput(`repository`);
         const description = core_1.getInput(`description`);
-        const target = core_1.getInput(`target`);
         const workflow = core_1.getInput(`workflow`);
         const token = core_1.getInput(`token`);
-        core_1.info(`username: ${username}`);
-        core_1.info(`repository: ${repository}`);
-        core_1.info(`description: ${description}`);
-        core_1.info(`target: ${target}`);
+        const targetDir = core_1.getInput(`targetDir`);
         const github = github_1.getOctokit(token);
         const collection = Array();
         yield fetchRepos_1.fetchRepos(github, collection, username);
-        const text = renderToMd_1.renderToMd(repository, description, workflow, collection);
-        core_1.info(text);
-        yield mkdirp_1.default(path_1.dirname(target));
-        yield fs_1.promises.writeFile(target, text);
+        yield mkdirp_1.default(targetDir);
+        const md = renderToMd_1.renderToMd(repository, description, workflow, collection);
+        const mdFilename = path_1.join(targetDir, 'README.md');
+        console_1.info(`write file: "${mdFilename}"`);
+        yield fs_1.promises.writeFile(mdFilename, md);
     }
     catch (err) {
         core_1.error(err);
@@ -6818,6 +6812,14 @@ module.exports = eval("require")("encoding");
 
 "use strict";
 module.exports = require("assert");;
+
+/***/ }),
+
+/***/ 7082:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("console");;
 
 /***/ }),
 
