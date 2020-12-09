@@ -30,7 +30,7 @@
     "mkdirp": "^1.0.4"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.16",
+    "@types/jest": "^26.0.18",
     "@types/mkdirp": "^1.0.1",
     "@types/node": "^14.14.9",
     "@vercel/ncc": "^0.25.1",
