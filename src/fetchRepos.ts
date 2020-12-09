@@ -16,6 +16,7 @@ export interface GqlResponseUser {
         hasNextPage: boolean,
         endCursor: string
       }
+      totalCount: number
     }
   }
 }
@@ -26,20 +27,6 @@ export const fetchRepos = async (
   username: string,
   after = ``
 ) => {
-  const data = await getUser(github, username, after)
-  const repos = getRepo(data)
-  const pageInfo = data.user.starredRepositories.pageInfo
-  repos.map(repo => {
-    info(`get repo info: ${repo.name}`)
-    collection.push(repo)
-  })
-
-  if (pageInfo?.hasNextPage) {
-    await fetchRepos(github, collection, username, pageInfo.endCursor)
-  }
-}
-
-export const getUser = async (github: GithubClient, username: string, after: string) => {
   const query = `
     query($login: String!, $after: String!) {
       user(login: $login) {
@@ -56,6 +43,7 @@ export const getUser = async (github: GithubClient, username: string, after: str
             hasNextPage
             endCursor
           }
+          totalCount
         }
       }
     }
@@ -64,14 +52,21 @@ export const getUser = async (github: GithubClient, username: string, after: str
     "login": username,
     "after": after
   }
-  return await github.graphql<GqlResponseUser>(query, variables)
-}
+  const data = await github.graphql<GqlResponseUser>(query, variables)
+  const starred = data.user.starredRepositories
+  starred.nodes.map(node => {
+    const repo = {
+      url: node.url,
+      name: node.nameWithOwner,
+      description: node.description || ``,
+      language: node.primaryLanguage ? node.primaryLanguage.name : `Misc`
+    }
+    collection.push(repo)
+  })
 
-export const getRepo = (data: GqlResponseUser): Repo[] => {
-  return data.user.starredRepositories.nodes.map(node => ({
-    url: node.url,
-    name: node.nameWithOwner,
-    description: node.description || ``,
-    language: node.primaryLanguage ? node.primaryLanguage.name : `Misc`
-  }))
+  info(`fetch repos count: ${collection.length}/${starred.totalCount}`)
+
+  if (starred.pageInfo?.hasNextPage) {
+    await fetchRepos(github, collection, username, starred.pageInfo.endCursor)
+  }
 }

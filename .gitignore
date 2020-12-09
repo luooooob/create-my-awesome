@@ -98,6 +98,5 @@ Thumbs.db
 __tests__/runner/*
 lib/**/*
 
-# target
-.target
-
+# test target file
+.create-my-awesome

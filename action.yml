@@ -11,27 +11,25 @@ inputs:
       You can specify to use any user's data
     default: ${{ github.repository_owner }}
 
+  description:
+    description: >
+      The description for your awesome project
+    default: 'A collection of awesome things.'
+
   repository: 
     description: >
       The owner and repository name.
     default: ${{ github.repository }}
-
-  introduction:
-    description: >
-      The introduction for your awesome project
-    default: 'A collection of awesome things.'
-  
-  target: 
-    description: >
-      The target filename
-    default: ./README.md
 
   workflow:
     default:  ${{ github.workflow }}
 
   token:
     default: ${{ github.token }}
-    
+  
+  targetDir:
+    default: ./
+
 runs:
   using: 'node12'
   main: 'dist/index.js'

@@ -101,18 +101,18 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const username = core_1.getInput(`username`);
         const repository = core_1.getInput(`repository`);
-        const introduction = core_1.getInput(`introduction`);
+        const description = core_1.getInput(`description`);
         const target = core_1.getInput(`target`);
         const workflow = core_1.getInput(`workflow`);
         const token = core_1.getInput(`token`);
         core_1.info(`username: ${username}`);
         core_1.info(`repository: ${repository}`);
-        core_1.info(`introduction: ${introduction}`);
+        core_1.info(`description: ${description}`);
         core_1.info(`target: ${target}`);
         const github = github_1.getOctokit(token);
         const collection = Array();
         yield fetchRepos_1.fetchRepos(github, collection, username);
-        const text = renderToMd_1.renderToMd(repository, introduction, workflow, collection);
+        const text = renderToMd_1.renderToMd(repository, description, workflow, collection);
         core_1.info(text);
         yield mkdirp_1.default(path_1.dirname(target));
         yield fs_1.promises.writeFile(target, text);
@@ -134,7 +134,7 @@ main();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.renderToMd = void 0;
 const capital_case_1 = __webpack_require__(8824);
-exports.renderToMd = (repository, introduction, workflow, repos) => {
+exports.renderToMd = (repository, description, workflow, repos) => {
     const title = capital_case_1.capitalCase(repository.split(`/`)[1]);
     const badge = {
         text: `build`,
@@ -176,7 +176,7 @@ exports.renderToMd = (repository, introduction, workflow, repos) => {
         return acc;
     }, Array());
     const rawHeading = `# ${title}  [![${badge.text}](${badge.svg})](${badge.href})\n\n`;
-    const rawIntroduction = `${introduction}\n\n`;
+    const rawIntroduction = `${description}\n\n`;
     const rawCategories = categories
         .map(category => `- [${category.name}](${category.id})\n`)
         .join(``);

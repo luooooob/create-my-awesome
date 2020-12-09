@@ -5,7 +5,7 @@ on: # rebuild any PRs and main branch changes
     branches:
       - main
       - 'releases/*'
-
+ 
 jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
@@ -21,5 +21,5 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          introduction: 'A liSt oF awesOme thiNgs'
-          target: '.target/README.md'
+          description: 'A liSt oF awesOme thiNgs, from test.yml'
+          targetDir: '.create-my-awesome/'

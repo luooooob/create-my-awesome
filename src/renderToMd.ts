@@ -5,7 +5,7 @@ type Category = { name: string, anchor: string, times: number, id: string, items
 
 export const renderToMd = (
   repository: string,
-  introduction: string,
+  description: string,
   workflow: string,
   repos: Repo[]
 ) => {
@@ -55,7 +55,7 @@ export const renderToMd = (
 
   const rawHeading = `# ${title}  [![${badge.text}](${badge.svg})](${badge.href})\n\n`
 
-  const rawIntroduction = `${introduction}\n\n`
+  const rawIntroduction = `${description}\n\n`
 
   const rawCategories = categories
     .map(category => `- [${category.name}](${category.id})\n`)

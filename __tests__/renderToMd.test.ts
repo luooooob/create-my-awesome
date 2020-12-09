@@ -1,11 +1,11 @@
 import { getInput } from '@actions/core'
-import { promises as fs } from 'fs'
-import { resolve } from 'path'
+import mkdirp from 'mkdirp'
+import { join } from 'path'
 import { renderToMd } from '../src/renderToMd'
+import { promises as fs } from 'fs'
 
 test('test render', async () => {
-  const target = getInput(`target`)
-  const output = renderToMd(
+  const md = renderToMd(
     'zhangSan/awesome-Zhang-san',
     'awesome zhang-san project',
     'build',
@@ -57,17 +57,19 @@ test('test render', async () => {
     }]
   )
 
-  await fs.writeFile(target, output)
+  const targetDir = getInput(`targetDir`)
+  mkdirp(targetDir)
+  await fs.writeFile(join(targetDir, 'README.test.md'), md)
 
-  expect(output).toMatch(/^# Awesome Zhang San/m)
-  expect(output).toMatch(/\S\n\nawesome zhang-san project\n\n\S/m)
-  expect(output).toMatch(/\S\n\n---\n\n\S/m)
-  expect(output).toMatch(/\S\n\n## Misc\n\n/m)
-  expect(output).toMatch(/^- \[C\]\(#c\)$/m)
-  expect(output).toMatch(/^- \[C#\]\(#c-1\)$/m)
-  expect(output).toMatch(/^- \[C\+\+\]\(#c-2\)$/m)
-  expect(output).toMatch(/^- \[Java\]\(#java\)$/m)
-  expect(output).toMatch(/^- \[Java\+\+\]\(#java-1\)$/m)
-  expect(output).toMatch(/^- \[Common Lisp\]\(#common-lisp\)$/m)
-  expect(output).toMatch(/^- \[Misc\]\(#misc\)$/m)
+  expect(md).toMatch(/^# Awesome Zhang San/m)
+  expect(md).toMatch(/\S\n\nawesome zhang-san project\n\n\S/m)
+  expect(md).toMatch(/\S\n\n---\n\n\S/m)
+  expect(md).toMatch(/\S\n\n## Misc\n\n/m)
+  expect(md).toMatch(/^- \[C\]\(#c\)$/m)
+  expect(md).toMatch(/^- \[C#\]\(#c-1\)$/m)
+  expect(md).toMatch(/^- \[C\+\+\]\(#c-2\)$/m)
+  expect(md).toMatch(/^- \[Java\]\(#java\)$/m)
+  expect(md).toMatch(/^- \[Java\+\+\]\(#java-1\)$/m)
+  expect(md).toMatch(/^- \[Common Lisp\]\(#common-lisp\)$/m)
+  expect(md).toMatch(/^- \[Misc\]\(#misc\)$/m)
 })
