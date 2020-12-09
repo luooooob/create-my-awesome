@@ -55,10 +55,20 @@ You can customize the introduction:
 
 ## Contributing
 
-```shell
+```sh
   npm i
   npm run all 
 ```
+
+To run it locally, you can customize the variables in `.env.example` and save as `.env`.Then:
+
+```sh
+  npm run local
+```
+
+## Todo
+
+add Screenshot to README.md
 
 ## License
 

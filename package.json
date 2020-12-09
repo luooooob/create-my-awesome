@@ -7,9 +7,9 @@
   "scripts": {
     "build": "tsc",
     "package": "ncc build --source-map --license licenses.txt",
-    "test:unit": "jest",
-    "test:local": "ts-node src/main.ts",
-    "all": "npm run build && npm run package && npm run test:unit"
+    "test": "jest",
+    "all": "npm run build && npm run package && npm test",
+    "local": "ts-node src/main.ts"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
+    "capital-case": "^1.0.4",
     "dotenv": "^8.2.0",
     "mkdirp": "^1.0.4"
   },
