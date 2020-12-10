@@ -130,6 +130,7 @@ main();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.renderToMd = void 0;
 const capital_case_1 = __webpack_require__(8824);
+const param_case_1 = __webpack_require__(8452);
 const renderToMd = (repository, description, workflow, repos) => {
     const title = capital_case_1.capitalCase(repository.split(`/`)[1]);
     const badge = {
@@ -137,7 +138,7 @@ const renderToMd = (repository, description, workflow, repos) => {
         svg: `https://github.com/${repository}/workflows/${workflow}/badge.svg`,
         href: `https://github.com/${repository}/actions`
     };
-    const flag = { name: ``, anchor: ``, times: -1, id: ``, items: [] };
+    const anchors = [param_case_1.paramCase(title)];
     const categories = Array
         .from(new Set(repos.map(repo => repo.language)))
         .sort((a, b) => {
@@ -150,22 +151,15 @@ const renderToMd = (repository, description, workflow, repos) => {
         return a > b ? 1 : -1;
     })
         .reduce((acc, language) => {
-        const anchor = language
-            .toLocaleLowerCase()
-            .replace(/[^0-9|^a-z|\s]/g, ``)
-            .replace(` `, `-`);
-        const lastAnchor = acc
-            .filter(acc => acc.anchor == anchor)
-            .reduce((pre, cur) => pre.times > cur.times ? pre : cur, flag);
-        const times = lastAnchor.times + 1;
-        const id = `#${anchor}` + (times > 0 ? `-${times}` : ``);
+        const anchor = param_case_1.paramCase(language);
+        const times = anchors.filter(item => item === anchor).length;
+        anchors.push(anchor);
+        const id = `#${anchor}` + (times === 0 ? `` : `-${times}`);
         const items = repos
             .filter(repo => repo.language === language)
             .sort((a, b) => a.name > b.name ? 1 : -1);
         acc.push({
             name: language,
-            anchor,
-            times,
             id,
             items
         });
@@ -3975,6 +3969,24 @@ exports.Deprecation = Deprecation;
 
 /***/ }),
 
+/***/ 2246:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.dotCase = void 0;
+var tslib_1 = __webpack_require__(5636);
+var no_case_1 = __webpack_require__(397);
+function dotCase(input, options) {
+    if (options === void 0) { options = {}; }
+    return no_case_1.noCase(input, tslib_1.__assign({ delimiter: "." }, options));
+}
+exports.dotCase = dotCase;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
 /***/ 2437:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -6174,6 +6186,24 @@ function onceStrict (fn) {
   return f
 }
 
+
+/***/ }),
+
+/***/ 8452:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.paramCase = void 0;
+var tslib_1 = __webpack_require__(5636);
+var dot_case_1 = __webpack_require__(2246);
+function paramCase(input, options) {
+    if (options === void 0) { options = {}; }
+    return dot_case_1.dotCase(input, tslib_1.__assign({ delimiter: "-" }, options));
+}
+exports.paramCase = paramCase;
+//# sourceMappingURL=index.js.map
 
 /***/ }),
 

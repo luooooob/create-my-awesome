@@ -1,7 +1,12 @@
 import { capitalCase } from "capital-case"
 import type { Repo } from "./types"
+import { paramCase } from 'param-case'
 
-type Category = { name: string, anchor: string, times: number, id: string, items: Repo[] }
+type Category = {
+  name: string,
+  id: string,
+  items: Repo[]
+}
 
 export const renderToMd = (
   repository: string,
@@ -16,7 +21,7 @@ export const renderToMd = (
     href: `https://github.com/${repository}/actions`
   }
 
-  const flag: Category = { name: ``, anchor: ``, times: -1, id: ``, items: [] }
+  const anchors: string[] = [paramCase(title)]
   const categories: Category[] = Array
     .from(new Set(
       repos.map(repo => repo.language))
@@ -31,22 +36,16 @@ export const renderToMd = (
       return a > b ? 1 : -1
     })
     .reduce((acc, language) => {
-      const anchor = language
-        .toLocaleLowerCase()
-        .replace(/[^0-9|^a-z|\s]/g, ``)
-        .replace(` `, `-`)
-      const lastAnchor = acc
-        .filter(acc => acc.anchor == anchor)
-        .reduce((pre, cur) => pre.times > cur.times ? pre : cur, flag)
-      const times = lastAnchor.times + 1
-      const id = `#${anchor}` + (times > 0 ? `-${times}` : ``)
+      const anchor = paramCase(language)
+      const times = anchors.filter(item => item === anchor).length
+      anchors.push(anchor)
+
+      const id = `#${anchor}` + (times === 0 ? `` : `-${times}`)
       const items = repos
         .filter(repo => repo.language === language)
         .sort((a, b) => a.name > b.name ? 1 : -1)
       acc.push({
         name: language,
-        anchor,
-        times,
         id,
         items
       })
