@@ -12,7 +12,6 @@ export const fetchRepos = async (
       user(login: $login) {
         starredRepositories(first: 100, after: $after) {
           nodes {
-            url
             nameWithOwner
             description
             primaryLanguage {
@@ -36,7 +35,6 @@ export const fetchRepos = async (
   const starred = data.user.starredRepositories
   starred.nodes.map(node => {
     const repo = {
-      url: node.url,
       name: node.nameWithOwner,
       description: node.description || ``,
       language: node.primaryLanguage ? node.primaryLanguage.name : `Misc`

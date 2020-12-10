@@ -26,7 +26,6 @@ const fetchRepos = (github, collection, username, after = ``) => __awaiter(void 
       user(login: $login) {
         starredRepositories(first: 100, after: $after) {
           nodes {
-            url
             nameWithOwner
             description
             primaryLanguage {
@@ -50,7 +49,6 @@ const fetchRepos = (github, collection, username, after = ``) => __awaiter(void 
     const starred = data.user.starredRepositories;
     starred.nodes.map(node => {
         const repo = {
-            url: node.url,
             name: node.nameWithOwner,
             description: node.description || ``,
             language: node.primaryLanguage ? node.primaryLanguage.name : `Misc`

@@ -1,5 +1,4 @@
 export interface Repo {
-  url: string
   name: string
   description: string
   language: string
@@ -9,7 +8,6 @@ export interface GqlResponse {
   user: {
     starredRepositories: {
       nodes: {
-        url: string
         nameWithOwner: string
         description: string
         primaryLanguage: {
