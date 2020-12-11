@@ -129,6 +129,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.renderToMd = void 0;
 const capital_case_1 = __webpack_require__(8824);
 const param_case_1 = __webpack_require__(8452);
+const escapeInput = (raws) => raws
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 const renderToMd = (repository, description, workflow, repos) => {
     const title = capital_case_1.capitalCase(repository.split(`/`)[1]);
     const badge = {
@@ -164,7 +167,7 @@ const renderToMd = (repository, description, workflow, repos) => {
         return acc;
     }, Array());
     const rawHeading = `# ${title}  [![${badge.text}](${badge.svg})](${badge.href})\n\n`;
-    const rawIntroduction = `${description}\n\n`;
+    const rawDescription = `${escapeInput(description)}\n\n`;
     const rawCategories = categories
         .map(category => `- [${category.name}](${category.id})\n`)
         .join(``);
@@ -172,11 +175,16 @@ const renderToMd = (repository, description, workflow, repos) => {
     const rawContent = categories.map(category => {
         const rawH2 = `## ${category.name}\n\n`;
         const rawItems = category.items
-            .map(repo => `- [${repo.name}](https://github.com/${repo.name}) - ${repo.description}\n`)
+            .map(repo => `- [${repo.name}](https://github.com/${repo.name}) - ${escapeInput(repo.description)}\n`)
             .join(``);
         return `${rawH2}${rawItems}\n`;
     }).join(``);
-    return rawHeading + rawIntroduction + rawCategories + rawLine + rawContent;
+    const rawMd = rawHeading
+        + rawDescription
+        + rawCategories
+        + rawLine
+        + rawContent;
+    return rawMd;
 };
 exports.renderToMd = renderToMd;
 

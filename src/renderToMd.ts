@@ -8,6 +8,11 @@ type Category = {
   items: Repo[]
 }
 
+const escapeInput = (raws: string) => raws
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;")
+
+
 export const renderToMd = (
   repository: string,
   description: string,
@@ -54,7 +59,7 @@ export const renderToMd = (
 
   const rawHeading = `# ${title}  [![${badge.text}](${badge.svg})](${badge.href})\n\n`
 
-  const rawIntroduction = `${description}\n\n`
+  const rawDescription = `${escapeInput(description)}\n\n`
 
   const rawCategories = categories
     .map(category => `- [${category.name}](${category.id})\n`)
@@ -66,11 +71,17 @@ export const renderToMd = (
     const rawH2 = `## ${category.name}\n\n`
 
     const rawItems = category.items
-      .map(repo => `- [${repo.name}](https://github.com/${repo.name}) - ${repo.description}\n`)
+      .map(repo => `- [${repo.name}](https://github.com/${repo.name}) - ${escapeInput(repo.description)}\n`)
       .join(``)
 
     return `${rawH2}${rawItems}\n`
   }).join(``)
 
-  return rawHeading + rawIntroduction + rawCategories + rawLine + rawContent
+  const rawMd = rawHeading
+    + rawDescription
+    + rawCategories
+    + rawLine
+    + rawContent
+
+  return rawMd
 }

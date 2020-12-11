@@ -4,7 +4,7 @@ import mkdirp from 'mkdirp'
 import { join } from 'path'
 import { renderToMd } from '../src/renderToMd'
 
-test('test renderToMd', async () => {
+test('test renderToMd format', async () => {
   const md = renderToMd(
     'zhangSan/awesome-Zhang-san',
     'awesome zhang-san project',
@@ -80,4 +80,28 @@ test('test renderToMd anchors', async () => {
   expect(md).toMatch(/^- \[Java\+\+\]\(#java-1\)$/m)
   expect(md).toMatch(/^- \[Common Lisp\]\(#common-lisp\)$/m)
   expect(md).toMatch(/^- \[Visual Basic .NET\]\(#visual-basic-net\)$/m)
+})
+
+test('test renderToMd escape', async () => {
+  const md = renderToMd(
+    'zhangSan/awesome-Zhang-san',
+    'awesome <zhang-san> project',
+    'build',
+    [{
+      name: "select/selectjs",
+      description: "you can <select> me",
+      language: "Ruby"
+    }, {
+      name: "fouber/blog",
+      description: "没事写写文章，喜欢的<话>请点star，想订阅点watch，千万别fork！",
+      language: "Misc"
+    }]
+  )
+
+  const targetDir = getInput(`targetDir`)
+  await mkdirp(targetDir)
+  await fs.writeFile(join(targetDir, 'test-3.md'), md)
+
+  expect(md).toMatch(/&lt;select&gt;/m)
+  expect(md).toMatch(/&lt;话&gt;/m)
 })
