@@ -42,7 +42,7 @@ jobs:
 
 - Pushing changes to Github with repositories's token(`${{ github.token }}`) will not create a new workflow run, so don't warry about creating recursive workflow runs.
 
-## Advance Usage
+## Advanced Usage
 
 ```yaml
   # ...
