@@ -4,7 +4,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/luob/create-my-awesome/build-test)
 ![GitHub top language](https://img.shields.io/github/languages/top/luob/create-my-awesome)
 
-Github Actions for automatically generating the personal awesome list from all of the repositories you starred.
+Github Actions for automatically generating a personal awesome project to organize all your starred repositories.
 
 ## Usage
 
@@ -38,18 +38,19 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 ```
 
-- Pushing changes with `${{ github.token }}` will not create a new workflow run, this prevents you from accidentally creating recursive workflow runs. So don't warry about  trigger it on changes.
-
+- Pushing changes to Github with repositories's token(`${{ github.token }}`) will not create a new workflow run, so don't warry about creating recursive workflow runs.
 
 ## Advance Usage
-
-You can customize the description:
 
 ```yaml
   # ...
   - uses: luob/create-my-awesome@v1.0.0-alpha.2
     with:
-      description: 'A liSt oF awesOme thiNgs.',
+      # You can use the data of any Github user, default to the owner of the repository
+      username: zhang-san
+      # customize the description, default to 'A collection of awesome things.'
+      description: 'A cOllectiOn OF awesOme thiNgs.',
+      # customize the target directory. Default to the root.
       targetDir: ./target/
   # ...
 ```

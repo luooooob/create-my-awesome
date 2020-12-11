@@ -1,6 +1,6 @@
 name: Create My Awesome
 description: >
-  automatically generating the personal awesome list from all of the repositories you starred.
+  Github Actions for automatically generating a personal awesome project to organize all your starred repositories.
 author: luob
 branding:
   icon: book
@@ -28,7 +28,7 @@ inputs:
     default: ${{ github.token }}
   
   targetDir:
-    default: ./
+    default: ${{ github.workspace }}
 
 runs:
   using: 'node12'

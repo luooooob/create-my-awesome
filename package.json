@@ -2,7 +2,7 @@
   "name": "create-my-awesome",
   "version": "1.0.0",
   "private": true,
-  "description": "Github Actions for automatically generating the personal awesome list from all of the repositories you starred.",
+  "description": "Github Actions for automatically generating a personal awesome project to organize all your starred repositories",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
