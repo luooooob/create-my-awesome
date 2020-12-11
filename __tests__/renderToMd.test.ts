@@ -52,6 +52,10 @@ test('test renderToMd anchors', async () => {
       description: "✍  An excellent open source blog publishing application. | 一个优秀的开源博客发布应用。",
       language: "Java++"
     }, {
+      name: "Tencent/Fanvas",
+      description: "Fanvas，一键把swf转为html5 canvas动画。 Fanvas is a tool which can turn flash into canvas animation with just one key!",
+      language: "ActionScript"
+    }, {
       name: "Qv2ray/Qv2ray",
       description: ":star: Linux / Windows / macOS 跨平台 V2Ray 客户端 | 支持 VMess / VLESS / SSR / Trojan / Trojan-Go / NaiveProxy / HTTP / HTTPS / SOCKS5 | 使用 C++ / Qt 开发 | 可拓展插件式设计 :star:",
       language: "C++"
@@ -78,6 +82,8 @@ test('test renderToMd anchors', async () => {
   expect(md).toMatch(/^- \[C#\]\(#c-2\)$/m)
   expect(md).toMatch(/^- \[Java\]\(#java\)$/m)
   expect(md).toMatch(/^- \[Java\+\+\]\(#java-1\)$/m)
+
+  expect(md).toMatch(/^- \[ActionScript\]\(#actionscript\)$/m)
   expect(md).toMatch(/^- \[Common Lisp\]\(#common-lisp\)$/m)
   expect(md).toMatch(/^- \[Visual Basic .NET\]\(#visual-basic-net\)$/m)
 })

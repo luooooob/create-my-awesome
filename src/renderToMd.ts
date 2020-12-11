@@ -8,10 +8,11 @@ type Category = {
   items: Repo[]
 }
 
-const escapeInput = (raws: string) => raws
+const escapeInput = (str: string) => str
   .replace(/</g, "&lt;")
   .replace(/>/g, "&gt;")
 
+const encodeAnchor = (str: string) => paramCase(str.toLocaleLowerCase())
 
 export const renderToMd = (
   repository: string,
@@ -41,7 +42,7 @@ export const renderToMd = (
       return a > b ? 1 : -1
     })
     .reduce((acc, language) => {
-      const anchor = paramCase(language)
+      const anchor = encodeAnchor(language)
       const times = anchors.filter(item => item === anchor).length
       anchors.push(anchor)
 

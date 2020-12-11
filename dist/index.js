@@ -129,9 +129,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.renderToMd = void 0;
 const capital_case_1 = __webpack_require__(8824);
 const param_case_1 = __webpack_require__(8452);
-const escapeInput = (raws) => raws
+const escapeInput = (str) => str
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+const encodeAnchor = (str) => param_case_1.paramCase(str.toLocaleLowerCase());
 const renderToMd = (repository, description, workflow, repos) => {
     const title = capital_case_1.capitalCase(repository.split(`/`)[1]);
     const badge = {
@@ -152,7 +153,7 @@ const renderToMd = (repository, description, workflow, repos) => {
         return a > b ? 1 : -1;
     })
         .reduce((acc, language) => {
-        const anchor = param_case_1.paramCase(language);
+        const anchor = encodeAnchor(language);
         const times = anchors.filter(item => item === anchor).length;
         anchors.push(anchor);
         const id = `#${anchor}` + (times === 0 ? `` : `-${times}`);
