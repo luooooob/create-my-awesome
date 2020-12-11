@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: luob/create-my-awesome@v1.0.0-alpha.2
+      - uses: luob/create-my-awesome@v1
       # Commit the change
       # See https://github.com/EndBug/add-and-commit
       - uses: EndBug/add-and-commit@v5
@@ -44,7 +44,7 @@ jobs:
 
 ```yaml
   # ...
-  - uses: luob/create-my-awesome@v1.0.0-alpha.2
+  - uses: luob/create-my-awesome@v1
     with:
       # You can use the data of any Github user, default to the owner of the repository
       username: zhang-san

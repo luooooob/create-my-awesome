@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: luob/create-my-awesome@v1.0.0-alpha.2
+      - uses: luob/create-my-awesome@v1
       # 提交更改
       # 见 https://github.com/EndBug/add-and-commit
       - uses: EndBug/add-and-commit@v5
@@ -45,7 +45,7 @@ jobs:
 
 ```yaml
   # ...
-  - uses: luob/create-my-awesome@v1.0.0-alpha.2
+  - uses: luob/create-my-awesome@v1
     with:
       # 你可以使用任何Github用户的数据, 默认是仓库所有人
       username: zhang-san
