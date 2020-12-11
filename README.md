@@ -6,6 +6,8 @@
 
 Github Actions for automatically generating a personal awesome project to organize all your starred repositories.
 
+[简体中文](./README.zh-Hans.md)
+
 ## Usage
 
 1. [Create a new repository on Github](https://github.com/new)
