@@ -15,14 +15,12 @@ test('test fetchRepos', async () => {
         user: {
           starredRepositories: {
             nodes: [{
-              url: "https://github.com/koajs/koa",
               nameWithOwner: "koajs/koa",
               description: "Expressive middleware for node.js using ES2017 async functions",
               primaryLanguage: {
                 name: "JavaScript"
               }
             }, {
-              url: "https://github.com/fouber/blog",
               nameWithOwner: "fouber/blog",
               description: "没事写写文章，喜欢的话请点star，想订阅点watch，千万别fork！",
               primaryLanguage: null
@@ -39,7 +37,6 @@ test('test fetchRepos', async () => {
         user: {
           starredRepositories: {
             nodes: [{
-              url: "https://github.com/xufei/blog",
               nameWithOwner: "xufei/blog",
               description: "my personal blog",
               primaryLanguage: null
@@ -66,17 +63,14 @@ test('test fetchRepos', async () => {
 
   expect(collection.length).toBe(3)
   expect(collection).toEqual([{
-    url: 'https://github.com/koajs/koa',
     name: 'koajs/koa',
     description: 'Expressive middleware for node.js using ES2017 async functions',
     language: 'JavaScript'
   }, {
-    url: 'https://github.com/fouber/blog',
     name: 'fouber/blog',
     description: '没事写写文章，喜欢的话请点star，想订阅点watch，千万别fork！',
     language: 'Misc'
   }, {
-    url: 'https://github.com/xufei/blog',
     name: 'xufei/blog',
     description: 'my personal blog',
     language: 'Misc'
