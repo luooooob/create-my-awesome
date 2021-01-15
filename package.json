@@ -31,10 +31,10 @@
     "param-case": "^3.0.4"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.19",
+    "@types/jest": "^26.0.20",
     "@types/mkdirp": "^1.0.1",
-    "@types/node": "^14.14.16",
-    "@vercel/ncc": "^0.27.0",
+    "@types/node": "^14.14.21",
+    "@vercel/ncc": "^0.26.2",
     "jest": "^24.9.0",
     "jest-circus": "^26.6.3",
     "js-yaml": "^4.0.0",
