@@ -35,7 +35,7 @@
     "@types/mkdirp": "^1.0.2",
     "@types/node": "^16.11.11",
     "@vercel/ncc": "^0.32.0",
-    "jest": "^27.4.0",
+    "jest": "^27.4.4",
     "jest-circus": "^27.4.2",
     "js-yaml": "^4.1.0",
     "ts-jest": "^27.1.0",
